@@ -37,3 +37,24 @@ basepractice/GoConcurrencyTest.go 生产者消费者示例
 ## select 多路复用
 需要从多个channel 接受消息时，go的 select关键字可以提供类似多路复用能力  
 使得goruntine可以同时等待多个channel的读写操作
+
+
+## context 上下文
+在多个goroutine中传递上下文信息，可以用context
+~~~~
+type Context interface {
+    // 返回context被取消的时间
+    Deadline() (deadline time.Time, ok bool) 
+
+    // 返回一个channel channel在工作完成或者上下文取消后关闭，多次调用done返回同一个channel
+    Done() <-chan struct{}
+
+    // 返回context结束原因，在Done返回的channel关闭时才会返回非空值
+    // context被取消会返回 Canceled错误； 超时会返回DeadlineExceeded错误
+    Err() error
+
+    // 从context取值
+    Value(key interface{}) interface{}
+}
+~~~~  
+示例代码如basepractice/GoContext.go
